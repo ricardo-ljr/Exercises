@@ -1,0 +1,90 @@
+package StrategyPattern1;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        TextBox box = new TextBox(new ValidText());
+
+        String test1 = "";
+        String test2 = "Hello World";
+
+        box.setText(test1);
+        box.setNumChars(test1.length());
+        box.setTextBoxColor(box.setColor());
+        System.out.println("The box is now " + box.getTextBoxColor());
+
+        box.setText(test2);
+        box.setNumChars(test2.length());
+        box.setTextBoxColor(box.setColor());
+        System.out.println("The box is now " + box.getTextBoxColor());
+
+    }
+
+}
+
+package StrategyPattern1;
+
+public class TextBox {
+
+    private String text;
+    private int numChars;
+    private String textBoxColor;
+
+    public Valid validate;
+
+    public TextBox(Valid validate) {
+        this.validate = validate;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setNumChars(int numChars) {
+        this.numChars = numChars;
+    }
+
+    public void setTextBoxColor(String textBoxColor) {
+        this.textBoxColor = textBoxColor;
+
+    }
+
+    public String getTextBoxColor() {
+        return textBoxColor;
+    }
+
+    public boolean validate() {
+        return validate.isValidText(numChars);
+    }
+
+    public String setColor() {
+        if (validate()) {
+            return "Green";
+        } else {
+            return "Black";
+        }
+    }
+}
+
+package StrategyPattern1;
+
+public interface Valid {
+    boolean isValidText(int numChars);
+}
+
+package StrategyPattern1;
+
+public class ValidText implements Valid{
+
+    @Override
+    public boolean isValidText(int numChars) {
+        if (numChars > 1) {
+            System.out.println("Valid text");
+            return true;
+        } else {
+            System.out.println("Invalid text");
+            return false;
+        }
+    }
+}

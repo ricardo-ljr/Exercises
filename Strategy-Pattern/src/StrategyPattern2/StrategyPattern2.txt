@@ -1,0 +1,86 @@
+package StrategyPattern2;
+
+public class Main {
+
+    public static void main(String[] args) {
+        EmailClient consoleApp = new EmailClient(new ConsoleApplication());
+        consoleApp.prompt();
+
+        EmailClient graphicalApp = new EmailClient(new GraphicalApplication());
+        graphicalApp.prompt();
+
+        EmailClient configurationFile = new EmailClient(new ConfigurationFile());
+        configurationFile.prompt();
+    }
+}
+
+package StrategyPattern2;
+
+public class EmailClient {
+
+    private String username;
+    private String password;
+
+    public SendEmail sendEmail;
+
+    public EmailClient(SendEmail sendEmail) {
+        this.sendEmail = sendEmail;
+    }
+
+    public void prompt() {
+        sendEmail.promptUser();
+    }
+
+}
+
+package StrategyPattern2;
+
+public interface SendEmail {
+    void promptUser();
+}
+
+package StrategyPattern2;
+
+import java.util.Scanner;
+
+public class ConsoleApplication implements SendEmail{
+
+    @Override
+    public void promptUser() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter username and password in console or type 'C' if you want to enter in command line: \n");
+
+        if (in.next().equals('C')) {
+            System.out.print("Login: ");
+            String username = in.next();
+
+            System.out.println("Password: ");
+            String password = in.next();
+        }
+
+    }
+}
+
+
+package StrategyPattern2;
+
+public class GraphicalApplication implements SendEmail{
+    @Override
+    public void promptUser() {
+        System.out.println("Enter your username and password once you see the graphical interface.");
+    }
+}
+
+
+package StrategyPattern2;
+
+public class ConfigurationFile implements SendEmail{
+
+    @Override
+    public void promptUser() {
+        System.out.println("Enter your username and password once you see the file.");
+    }
+}
+
+
+

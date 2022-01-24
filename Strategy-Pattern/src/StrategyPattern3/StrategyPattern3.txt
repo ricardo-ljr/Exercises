@@ -1,0 +1,125 @@
+package StrategyPattern3;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        double newTV = 1000.00;
+
+        ProcessOrders order1 = new ProcessOrders(new CreditCard(), new Arizona(), new WestCoast());
+        order1.setItemCost(newTV);
+        System.out.println("Total order cost: " + order1.checkout() + " enjoy your new TV!");
+
+    }
+}
+
+package StrategyPattern3;
+
+public class ProcessOrders {
+
+    private double total;
+    private double itemCost = 0.0;
+
+    PaymentType paymentType;
+    SalesTax salesTax;
+    Shipping shipping;
+
+    public ProcessOrders(PaymentType paymentType, SalesTax salesTax, Shipping shipping) {
+        this.paymentType = paymentType;
+        this.salesTax = salesTax;
+        this.shipping = shipping;
+    }
+
+    public void setItemCost(double itemCost) {
+        this.itemCost = itemCost;
+    }
+
+    public double checkout() {
+        total = (itemCost + shipping.getShippingRate()) + (itemCost * (salesTax.getSalesTaxRate()/100)) + paymentType.getPaymentType();
+        return total;
+    }
+}
+
+package StrategyPattern3;
+
+public interface SalesTax {
+
+    public double getSalesTaxRate();
+}
+
+class Utah implements SalesTax {
+
+    @Override
+    public double getSalesTaxRate() {
+        return 4.85;
+    }
+}
+
+class California implements SalesTax {
+
+    @Override
+    public double getSalesTaxRate() {
+        return 7.25;
+    }
+}
+
+class Arizona implements SalesTax {
+
+    @Override
+    public double getSalesTaxRate() {
+        return 5.6;
+    }
+}
+
+package StrategyPattern3;
+
+public interface PaymentType {
+    public double getPaymentType();
+}
+
+class CreditCard implements PaymentType {
+
+    @Override
+    public double getPaymentType() {
+        return 3.0;
+    }
+}
+
+class DebitCard implements PaymentType {
+
+    @Override
+    public double getPaymentType() {
+        return 0.0;
+    }
+}
+
+class PayPal implements PaymentType {
+
+    @Override
+    public double getPaymentType() {
+        return 3.0;
+    }
+}
+
+package StrategyPattern3;
+
+public interface Shipping {
+    public double getShippingRate();
+}
+
+class WestCoast implements Shipping {
+
+    @Override
+    public double getShippingRate() {
+        return 10.0;
+    }
+}
+
+class EastCoast implements Shipping {
+
+    @Override
+    public double getShippingRate() {
+        return 20.0;
+    }
+}
+
